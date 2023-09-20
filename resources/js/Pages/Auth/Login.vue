@@ -1,94 +1,106 @@
-<script setup>
-import Checkbox from '@/Components/Checkbox.vue';
-import GuestLayout from '@/Layouts/GuestLayout.vue';
-import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import TextInput from '@/Components/TextInput.vue';
-import { Head, Link, useForm } from '@inertiajs/vue3';
+<template>
+    <div class="container" style="margin-top: 20vh">
+        <div class="row">
+            <form
+                class="card col-12 col-md-7 mx-auto p-4"
+                @submit.prevent="submit"
+                @input="form.clearErrors()"
+            >
+                <h2>Login</h2>
+                <hr />
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label"
+                        >Email address</label
+                    >
+                    <input
+                        v-model="form.email"
+                        type="email"
+                        :class="
+                            form.errors.email
+                                ? 'form-control is-invalid'
+                                : 'form-control'
+                        "
+                        id="exampleInputEmail1"
+                        aria-describedby="emailHelp"
+                        required
+                    />
+                    <div
+                        v-if="form.errors.email"
+                        id="exampleInputPassword1"
+                        class="invalid-feedback"
+                    >
+                        {{ form.errors.email }}
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label"
+                        >Password</label
+                    >
+                    <input
+                        v-model="form.password"
+                        type="password"
+                        :class="
+                            form.errors.password
+                                ? 'form-control is-invalid'
+                                : 'form-control'
+                        "
+                        id="exampleInputPassword1"
+                        required
+                    />
+                    <div
+                        v-if="form.errors.password"
+                        id="exampleInputPassword1"
+                        class="invalid-feedback"
+                    >
+                        {{ form.errors.password }}
+                    </div>
+                </div>
+                <div class="mb-3 form-check">
+                    <input
+                        v-model="form.remember"
+                        type="checkbox"
+                        class="form-check-input"
+                        id="exampleCheck1"
+                    />
+                    <label class="form-check-label" for="exampleCheck1"
+                        >Remember</label
+                    >
+                </div>
+                <button
+                    type="submit"
+                    :disabled="form.processing"
+                    class="btn btn-primary w-100"
+                >
+                    Submit
+                    <span
+                        class="spinner-border spinner-border-sm"
+                        aria-hidden="true"
+                        v-if="form.processing"
+                    ></span>
+                </button>
+            </form>
+        </div>
+    </div>
+</template>
 
-defineProps({
-    canResetPassword: {
-        type: Boolean,
+<script>
+import { useForm } from "@inertiajs/vue3";
+
+export default {
+    data() {
+        return {
+            form: useForm({
+                email: "",
+                password: "",
+                remember: false,
+            }),
+        };
     },
-    status: {
-        type: String,
+    methods: {
+        submit() {
+            console.log(this.form.errors);
+            this.form.post("/login");
+        },
     },
-});
-
-const form = useForm({
-    email: '',
-    password: '',
-    remember: false,
-});
-
-const submit = () => {
-    form.post(route('login'), {
-        onFinish: () => form.reset('password'),
-    });
 };
 </script>
-
-<template>
-    <GuestLayout>
-        <Head title="Log in" />
-
-        <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
-            {{ status }}
-        </div>
-
-        <form @submit.prevent="submit">
-            <div>
-                <InputLabel for="email" value="Email" />
-
-                <TextInput
-                    id="email"
-                    type="email"
-                    class="mt-1 block w-full"
-                    v-model="form.email"
-                    required
-                    autofocus
-                    autocomplete="username"
-                />
-
-                <InputError class="mt-2" :message="form.errors.email" />
-            </div>
-
-            <div class="mt-4">
-                <InputLabel for="password" value="Password" />
-
-                <TextInput
-                    id="password"
-                    type="password"
-                    class="mt-1 block w-full"
-                    v-model="form.password"
-                    required
-                    autocomplete="current-password"
-                />
-
-                <InputError class="mt-2" :message="form.errors.password" />
-            </div>
-
-            <div class="block mt-4">
-                <label class="flex items-center">
-                    <Checkbox name="remember" v-model:checked="form.remember" />
-                    <span class="ml-2 text-sm text-gray-600">Remember me</span>
-                </label>
-            </div>
-
-            <div class="flex items-center justify-end mt-4">
-                <Link
-                    v-if="canResetPassword"
-                    :href="route('password.request')"
-                    class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                >
-                    Forgot your password?
-                </Link>
-
-                <PrimaryButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Log in
-                </PrimaryButton>
-            </div>
-        </form>
-    </GuestLayout>
-</template>
