@@ -2,7 +2,7 @@
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container">
             <Link href="/" class="navbar-brand">Coding Challange</Link>
-            <button
+            <!-- <button
                 class="navbar-toggler"
                 type="button"
                 data-bs-toggle="collapse"
@@ -12,12 +12,18 @@
                 aria-label="Toggle navigation"
             >
                 <span class="navbar-toggler-icon"></span>
+            </button> -->
+            <!-- <div class="collapse navbar-collapse" id="navbarNav"> -->
+            <!-- <ul class="navbar-nav" v-for="link in links"> -->
+            <!-- <NavbarLink v-bind="link" /> -->
+            <!-- </ul> -->
+            <!-- </div> -->
+            <button
+                class="btn btn-outline-danger ms-auto d-sm-none d-lg-flex"
+                @click="logout"
+            >
+                Logout
             </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav" v-for="link in links">
-                    <NavbarLink v-bind="link" />
-                </ul>
-            </div>
         </div>
     </nav>
 
@@ -27,8 +33,9 @@
 </template>
 
 <script>
-import { Link } from "@inertiajs/vue3";
+import { Link, router } from "@inertiajs/vue3";
 import NavbarLink from "./NavbarLink.vue";
+
 export default {
     data() {
         return {
@@ -49,5 +56,10 @@ export default {
         };
     },
     components: { NavbarLink, NavbarLink, Link },
+    methods: {
+        logout() {
+            router.post("/logout");
+        },
+    },
 };
 </script>

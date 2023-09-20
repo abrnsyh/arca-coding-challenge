@@ -98,8 +98,7 @@ export default {
     },
     methods: {
         submit() {
-            console.log(this.form.errors);
-            this.form.post("/login");
+            this.form.post("/");
         },
     },
 };
