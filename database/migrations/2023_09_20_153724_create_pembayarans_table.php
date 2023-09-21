@@ -9,13 +9,12 @@ return new class extends Migration {
      * Run the migrations.
      */
     public function up(): void {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('pembayarans', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->boolean('is_admin')->default(false);
-            $table->string('password');
-            $table->rememberToken();
+            $table->string('buruh_name');
+            $table->integer('amount');
+            $table->integer('percentage');
+            $table->integer('buruh_salary');
             $table->timestamps();
         });
     }
@@ -24,6 +23,6 @@ return new class extends Migration {
      * Reverse the migrations.
      */
     public function down(): void {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('pembayarans');
     }
 };
