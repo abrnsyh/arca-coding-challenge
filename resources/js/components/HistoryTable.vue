@@ -14,10 +14,10 @@
                 </thead>
                 <tbody v-for="details in allPembayaran.data">
                     <tr>
-                        <td>{{ details.amount }}</td>
+                        <td>Rp. {{ details.amount }}</td>
                         <td>{{ details.buruh_name }}</td>
-                        <td>{{ details.percentage }}</td>
-                        <td>{{ details.buruh_salary }}</td>
+                        <td>{{ details.percentage }}%</td>
+                        <td>Rp. {{ details.buruh_salary }}</td>
                         <td>
                             <div class="">
                                 <button

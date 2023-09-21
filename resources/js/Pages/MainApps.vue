@@ -113,6 +113,10 @@ import HistoryTable from "@/components/HistoryTable.vue";
 import Navbar from "@/components/Navbar.vue";
 import { useForm } from "@inertiajs/vue3";
 
+// TODO: 1. Create update functionality for pembayaran
+//       2. Create register and implement the role
+//       3. Refactor the code
+
 export default {
     layout: Navbar,
     data() {
